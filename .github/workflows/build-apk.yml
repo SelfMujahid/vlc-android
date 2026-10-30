@@ -3,7 +3,7 @@ name: Build Custom VLC Android APK
 on:
   push:
     branches: [ master, main ]
-  workflow_dispatch: # Direct manually run karne ke liye
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,8 +22,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Android SDK & NDK
+    - name: Setup Android SDK & Accept Licenses
       uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 'latest'
+
+    - name: Auto Accept Android Licenses
+      run: |
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
     - name: Install Build Dependencies
       run: |
