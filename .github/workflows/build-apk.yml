@@ -22,17 +22,20 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Android SDK
+    - name: Setup Android SDK & NDK
       uses: android-actions/setup-android@v3
       with:
-        packages: 'platforms;android-33 build-tools;33.0.2 platform-tools'
+        packages: 'platforms;android-33 build-tools;33.0.2 platform-tools ndk;25.2.9519653'
 
     - name: Install Build Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y automake ant autoconf libtool wget libtool-bin gawk patch build-essential protobuf-compiler gettext cmake libstdc++6
 
-    - name: Run VLC Compile Script from Buildsystem
+    - name: Run VLC Compile Script
+      env:
+        ANDROID_SDK: ${{ env.ANDROID_HOME }}
+        ANDROID_NDK: ${{ env.ANDROID_HOME }}/ndk-bundle
       run: |
         cd buildsystem
         chmod +x compile.sh
