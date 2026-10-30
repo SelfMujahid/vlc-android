@@ -22,14 +22,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Android SDK & Accept Licenses
+    - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-        cmdline-tools-version: 'latest'
-
-    - name: Auto Accept Android Licenses
-      run: |
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        packages: 'platforms;android-33 build-tools;33.0.2 platform-tools'
 
     - name: Install Build Dependencies
       run: |
