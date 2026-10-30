@@ -32,13 +32,18 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y automake ant autoconf libtool wget libtool-bin gawk patch build-essential protobuf-compiler gettext cmake libstdc++6
 
+    - name: Fix NDK Path for VLC
+      run: |
+        # setup-android NDK ko version folder mein rakhta hai, usay ndk-bundle par link kar dete hain
+        sudo ln -s $ANDROID_HOME/ndk/25.2.9519653 $ANDROID_HOME/ndk-bundle
+
     - name: Run VLC Compile Script
       env:
         ANDROID_SDK: ${{ env.ANDROID_HOME }}
         ANDROID_NDK: ${{ env.ANDROID_HOME }}/ndk-bundle
       run: |
+        # Root folder se hi compile script chalana hai (cd buildsystem nahi karna)
         cd buildsystem
-        chmod +x compile.sh
         ./compile.sh -a arm64-v8a
 
     - name: Upload APK Artifact
