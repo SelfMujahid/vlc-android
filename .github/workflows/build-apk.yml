@@ -32,9 +32,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y automake ant autoconf libtool wget libtool-bin gawk patch build-essential protobuf-compiler gettext cmake libstdc++6
 
-    - name: Run VLC Compile Script
+    - name: Run VLC Compile Script from Buildsystem
       run: |
-        # VLC-Android ka official compile script chalane ke liye
+        cd buildsystem
+        chmod +x compile.sh
         ./compile.sh -a arm64-v8a
 
     - name: Upload APK Artifact
